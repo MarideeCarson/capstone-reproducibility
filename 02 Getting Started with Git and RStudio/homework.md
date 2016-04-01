@@ -1,9 +1,11 @@
-<!--Make a title for your homework using the largest heading--> # Homework 
+<!--Make a title for your homework using the largest heading--> 
+# Homework 
 
 
 
 <!--Create an subtitle using a smaller heading for your favorite
-foods--> ## Favorite Foods 
+foods--> 
+## Favorite Foods 
 
 
 
