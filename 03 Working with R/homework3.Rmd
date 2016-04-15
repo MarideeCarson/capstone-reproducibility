@@ -18,27 +18,49 @@ Read in the homework3.csv data. For each of the following steps you
 should preface your R commands with some plain English explanation.
 -->
 
+```{r}
+dat<-read.csv("example3.csv")
+```
+"major", "year", "conservativism"
 
 
-<!--
+## Students varied grade level and Conservativism
+
 Check the structure of the data.
 -->
+## Next we check out the structure of the data
 
+```{r}
+str(dat)
+```
 
-
-<!--
 Find the mean, median, and standard deviation using the sd() function
 for the overall level of conservatism.
 -->
+## mean, median and standard deviation for the overall level of conservatism
+```{r}
+mean(dat$support)
 
+median(dat$support)
 
+var(dat$support)
+```
+## From the previous analysis we can see that the mean was 63.4 the median was 67.0 and the standard deviation listed as a variance was 171.6
 
 <!--
 Find the mean level of support for freshmen only.
 -->
 
+## Mean level of support for freshmen only
 
-
+```{r}
+mean(dat$support[dat$year=="freshmen"])
+```
+## The mean level of support for freshmen is NaN```
 <!--
 Find the mean level of support for male business students only.
 -->
+## Mean level of support for male business students only
+```{r}
+mean(dat$support[dat$gender=="male business students" & dat$party=="democrat"])
+```
