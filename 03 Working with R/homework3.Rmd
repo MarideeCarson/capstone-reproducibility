@@ -1,3 +1,6 @@
+---
+output: html_document
+---
 ## Homework 3
 
 <!--
