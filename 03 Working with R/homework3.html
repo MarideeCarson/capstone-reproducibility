@@ -111,8 +111,7 @@ $(document).ready(function () {
 </div>
 
 
-<div id="homework-3" class="section level2">
-<h2>Homework 3</h2>
+<p>Homework 3</p>
 <!--
 You can use the example3.Rmd or other files to find examples
 of the codes you'll need to use to complete this assignment. I strongly
@@ -128,47 +127,35 @@ No Rchunk is needed to accomplish this.
 Read in the homework3.csv data. For each of the following steps you
 should preface your R commands with some plain English explanation.
 -->
-<pre class="r"><code>dat&lt;-read.csv(&quot;example3.csv&quot;)</code></pre>
+<pre class="r"><code>dat&lt;-read.csv(&quot;homework3.csv&quot;)</code></pre>
 <p>“major”, “year”, “conservativism”</p>
-</div>
-<div id="students-varied-grade-level-and-conservativism" class="section level2">
-<h2>Students varied grade level and Conservativism</h2>
-<p>Check the structure of the data. –&gt; ## Next we check out the structure of the data</p>
+<p>major year and Conservatism</p>
+<p>Check the structure of the data. –&gt; Next we check out the structure of the data</p>
 <pre class="r"><code>str(dat)</code></pre>
 <pre><code>## 'data.frame':    100 obs. of  3 variables:
-##  $ gender : Factor w/ 2 levels &quot;female&quot;,&quot;male&quot;: 1 1 1 1 1 1 1 1 1 1 ...
-##  $ party  : Factor w/ 2 levels &quot;democrat&quot;,&quot;republican&quot;: 2 2 2 2 2 2 2 2 2 2 ...
-##  $ support: num  73.9 61.5 68.2 68.7 66.6 ...</code></pre>
-<p>Find the mean, median, and standard deviation using the sd() function for the overall level of conservatism. –&gt; ## mean, median and standard deviation for the overall level of conservatism</p>
-<pre class="r"><code>mean(dat$support)</code></pre>
-<pre><code>## [1] 63.36409</code></pre>
-<pre class="r"><code>median(dat$support)</code></pre>
-<pre><code>## [1] 66.98244</code></pre>
-<pre class="r"><code>var(dat$support)</code></pre>
-<pre><code>## [1] 171.6474</code></pre>
-</div>
-<div id="from-the-previous-analysis-we-can-see-that-the-mean-was-63.4-the-median-was-67.0-and-the-standard-deviation-listed-as-a-variance-was-171.6" class="section level2">
-<h2>From the previous analysis we can see that the mean was 63.4 the median was 67.0 and the standard deviation listed as a variance was 171.6</h2>
+##  $ major       : Factor w/ 2 levels &quot;business&quot;,&quot;psychology&quot;: 2 2 2 2 2 2 2 2 2 2 ...
+##  $ year        : Factor w/ 4 levels &quot;freshman&quot;,&quot;junior&quot;,..: 1 1 1 1 1 1 1 1 1 1 ...
+##  $ conservatism: num  44.5 38.6 34.2 32.2 42.3 ...</code></pre>
+<p>Find the mean, median, and standard deviation using the sd() function for the overall level of conservatism. –&gt; mean, median and standard deviation, listed as variance for the overall level of conservatism</p>
+<pre class="r"><code>mean(dat$conservatism)</code></pre>
+<pre><code>## [1] 52.29458</code></pre>
+<pre class="r"><code>median(dat$conservatism)</code></pre>
+<pre><code>## [1] 53.83231</code></pre>
+<pre class="r"><code>sd(dat$conservatism)</code></pre>
+<pre><code>## [1] 19.75757</code></pre>
+<p>From the previous analysis we can see that the mean was 52.3 the median was 53.8 and the standard deviation listed as a variance was 390.4, so sd would be 19.8</p>
 <!--
 Find the mean level of support for freshmen only.
 -->
-</div>
-<div id="mean-level-of-support-for-freshmen-only" class="section level2">
-<h2>Mean level of support for freshmen only</h2>
-<pre class="r"><code>mean(dat$support[dat$year==&quot;freshmen&quot;])</code></pre>
-<pre><code>## [1] NaN</code></pre>
-</div>
-<div id="the-mean-level-of-support-for-freshmen-is-nan" class="section level2">
-<h2>The mean level of support for freshmen is NaN```</h2>
+<p>3 Mean level of support for freshmen only</p>
+<pre class="r"><code>mean(dat$conservatism[dat$year==&quot;freshman&quot;])</code></pre>
+<pre><code>## [1] 47.50033</code></pre>
 <!--
 Find the mean level of support for male business students only.
 -->
-</div>
-<div id="mean-level-of-support-for-male-business-students-only" class="section level2">
-<h2>Mean level of support for male business students only</h2>
-<pre class="r"><code>mean(dat$support[dat$gender==&quot;male business students&quot; &amp; dat$party==&quot;democrat&quot;])</code></pre>
-<pre><code>## [1] NaN</code></pre>
-</div>
+<p>Mean level of support for business sophmore students only</p>
+<pre class="r"><code>mean(dat$conservatism[dat$major==&quot;business&quot; &amp; dat$year==&quot;sophomore&quot;])</code></pre>
+<pre><code>## [1] 61.60146</code></pre>
 
 
 

@@ -1,7 +1,7 @@
 ---
 output: html_document
 ---
-## Homework 3
+ Homework 3 
 
 <!--
 You can use the example3.Rmd or other files to find examples
@@ -22,16 +22,20 @@ should preface your R commands with some plain English explanation.
 -->
 
 ```{r}
-dat<-read.csv("example3.csv")
+dat<-read.csv("homework3.csv")
 ```
 "major", "year", "conservativism"
 
 
-## Students varied grade level and Conservativism
+ major year and Conservatism 
+
+
+
+
 
 Check the structure of the data.
 -->
-## Next we check out the structure of the data
+ Next we check out the structure of the data 
 
 ```{r}
 str(dat)
@@ -40,30 +44,43 @@ str(dat)
 Find the mean, median, and standard deviation using the sd() function
 for the overall level of conservatism.
 -->
-## mean, median and standard deviation for the overall level of conservatism
+ mean, median and standard deviation, listed as variance for the overall level of conservatism
+
 ```{r}
-mean(dat$support)
 
-median(dat$support)
+mean(dat$conservatism)
 
-var(dat$support)
+median(dat$conservatism)
+
+sd(dat$conservatism)
 ```
-## From the previous analysis we can see that the mean was 63.4 the median was 67.0 and the standard deviation listed as a variance was 171.6
+ From the previous analysis we can see that the mean was 52.3 the median was 53.8 and the standard deviation listed as a variance was 390.4, so sd would be 19.8
+
+
+
 
 <!--
 Find the mean level of support for freshmen only.
 -->
 
-## Mean level of support for freshmen only
+3 Mean level of support for freshmen only 
+
+
 
 ```{r}
-mean(dat$support[dat$year=="freshmen"])
+mean(dat$conservatism[dat$year=="freshman"])
 ```
-## The mean level of support for freshmen is NaN```
+
+
+
+ 
 <!--
 Find the mean level of support for male business students only.
 -->
-## Mean level of support for male business students only
+Mean level of support for business sophmore students only
 ```{r}
-mean(dat$support[dat$gender=="male business students" & dat$party=="democrat"])
+mean(dat$conservatism[dat$major=="business" & dat$year=="sophomore"])
 ```
+
+
+
