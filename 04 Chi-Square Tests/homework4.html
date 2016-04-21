@@ -112,7 +112,6 @@ $(document).ready(function () {
 
 
 <p>Homework 4</p>
-<p>## Homework 4 ##</p>
 <!--
 Remember you can use the example4.Rmd or other files to find examples
 of the codes you'll need to use to complete this assignment. I strongly
@@ -128,32 +127,32 @@ No Rchunk is needed to accomplish this.
 Read in the homework4.csv data. For each of the following steps you
 should preface your R commands with some plain English explanation.
 -->
-<div id="here-is-the-data" class="section level3">
-<h3>Here is the data</h3>
-<pre class="r"><code>dat&lt;-read.csv(&quot;example4.csv&quot;)</code></pre>
-</div>
-<div id="checking-the-structure-of-the-data-now" class="section level3">
-<h3>Checking the structure of the data now</h3>
+<!--
+Here is the data being Read-in
+-->
+<pre class="r"><code>dat&lt;-read.csv(&quot;homework4.csv&quot;)</code></pre>
 <!--
 Check the structure of the data.
 -->
+<!--
+Here is the data structure
+-->
 <pre class="r"><code>str(dat)</code></pre>
-<pre><code>## 'data.frame':    60 obs. of  2 variables:
-##  $ major : Factor w/ 2 levels &quot;engineering&quot;,..: 1 2 1 2 1 2 1 2 1 2 ...
-##  $ gender: Factor w/ 2 levels &quot;female&quot;,&quot;male&quot;: 1 1 1 1 1 1 1 1 2 1 ...</code></pre>
+<pre><code>## 'data.frame':    80 obs. of  2 variables:
+##  $ condition: Factor w/ 2 levels &quot;control&quot;,&quot;experimental&quot;: 2 1 2 1 2 1 2 1 2 1 ...
+##  $ agreement: Factor w/ 2 levels &quot;no&quot;,&quot;yes&quot;: 1 1 2 2 1 1 2 2 1 2 ...</code></pre>
 <!--
 Create a table that shows how many people fell into each category.
 -->
-<p>### Below will be a table of gender versus majors in engineering or psychology ###</p>
-<p><code>r  table(dat$major, dat$gender)</code></p>
-<p><code>##                ##               female male  ##   engineering     11   19  ##   psychology      18   12</code> ### female male ### ### engineering 11 19 ### ### psychology 18 12 ###</p>
-</div>
-<div id="data.frame-60-obs.-of-2-variables" class="section level3">
-<h3>‘data.frame’: 60 obs. of 2 variables:</h3>
-<p>### $ major : Factor w/ 2 levels “engineering”,..: 1 2 1 2 1 2 1 2 1 2 …### ### $ gender: Factor w/ 2 levels “female”,“male”: 1 1 1 1 1 1 1 1 2 1 … ###</p>
-<p>mytable&lt;-table(dat<span class="math inline">\(gender,dat\)</span>major)</p>
-<p>mytable</p>
-<p># engineering psychology# # female 11 18 # #male 19 12 #</p>
+<!--
+Below will be a table of whom fell into each category
+-->
+<pre class="r"><code>mytable&lt;-table(dat$condition,dat$agreement)</code></pre>
+<pre class="r"><code>table(dat$condition , dat$agreement)</code></pre>
+<pre><code>##               
+##                no yes
+##   control      20  20
+##   experimental 14  26</code></pre>
 <!--
 Perform a chi-square test to determine whether or not the experimental
 conditions and agreement with a statement are independent or related.
@@ -162,13 +161,14 @@ statement that supports your interpretation. As there's no way to
 insert the chi-square symbol, you can just use chi-square instead
 (see example4.Rmd).
 -->
-</div>
-<div id="chi-square-test" class="section level3">
-<h3>Chi Square Test</h3>
-</div>
-<div id="x21-2.4-p-.12-so-gender-and-major-are-unrelated" class="section level3">
-<h3>X^2(1) = 2.4, p = .12 so gender and major are unrelated</h3>
-<p>chisq.test(dat<span class="math inline">\(gender,dat\)</span>major)</p>
+<div id="the-condition-and-agreement-are-unrelated" class="section level6">
+<h6>The condition and agreement are unrelated</h6>
+<pre class="r"><code>chisq.test(dat$condition,dat$agreement)</code></pre>
+<pre><code>## 
+##  Pearson's Chi-squared test with Yates' continuity correction
+## 
+## data:  dat$condition and dat$agreement
+## X-squared = 1.2788, df = 1, p-value = 0.2581</code></pre>
 </div>
 
 

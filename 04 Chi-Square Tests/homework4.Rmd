@@ -1,7 +1,5 @@
  Homework 4
  
- ## Homework 4 ##
-
 <!--
 Remember you can use the example4.Rmd or other files to find examples
 of the codes you'll need to use to complete this assignment. I strongly
@@ -15,19 +13,29 @@ Set the working directory.
 No Rchunk is needed to accomplish this.
 -->
 
+
 <!--
 Read in the homework4.csv data. For each of the following steps you
 should preface your R commands with some plain English explanation.
 -->
 
-### Here is the data ###
+
+<!--
+Here is the data being Read-in
+-->
+
+
 ```{r}
-dat<-read.csv("example4.csv")
+dat<-read.csv("homework4.csv")
 ```
 
-### Checking the structure of the data now ###
+
 <!--
 Check the structure of the data.
+-->
+
+<!--
+Here is the data structure
 -->
 
 ```{r}
@@ -38,27 +46,18 @@ str(dat)
 Create a table that shows how many people fell into each category.
 -->
 
- ### Below will be a table of gender versus majors in engineering or psychology ###
- 
- ```{r}
-table(dat$major, dat$gender)
+<!--
+Below will be a table of whom fell into each category
+-->
+
+
+```{r}
+mytable<-table(dat$condition,dat$agreement)
 ```
-           ### female male ###
-  ### engineering     11   19 ###
-  ### psychology      18   12  ###
 
-
-### 'data.frame':	60 obs. of  2 variables:
- ### $ major : Factor w/ 2 levels "engineering",..: 1 2 1 2 1 2 1 2 1 2 ...###
- ###  $ gender: Factor w/ 2 levels "female","male": 1 1 1 1 1 1 1 1 2 1 ... ###
-
-mytable<-table(dat$gender,dat$major)
-
- mytable
- 
- #        engineering psychology#
- # female          11         18 #
-  #male            19         12 #
+```{r}
+table(dat$condition , dat$agreement)
+```
 
 <!--
 Perform a chi-square test to determine whether or not the experimental
@@ -69,8 +68,8 @@ insert the chi-square symbol, you can just use chi-square instead
 (see example4.Rmd).
 -->
 
-### Chi Square Test ###
+######The condition and agreement are unrelated######
 
-### X^2(1) = 2.4, p = .12 so gender and major are unrelated
-
-chisq.test(dat$gender,dat$major)
+```{r}
+chisq.test(dat$condition,dat$agreement)
+```
