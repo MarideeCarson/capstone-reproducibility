@@ -15,25 +15,49 @@ that people can type when listening to no music and when listening
 to heavy metal.
 -->
 
+Read in data
 
+
+```{r}
+dat<-read.csv("homework5.csv")
+```
+
+
+The next step is to check out the structure
 
 <!--
 Check the structure of the data.
 -->
 
+```{r}
+str(dat)
+```
 
 
 <!--
 Find the mean words per minute for the two groups.
 -->
 
-
+```{r}
+mean(dat$wpm[dat$music=="none"])
+mean(dat$wpm[dat$music=="metal"])
+```
 
 <!--
 Run an independent t-test to determine if the mean wpm for the
 no music group is different from the mean wpm from heavy metal
 group. Interpret the results of your analysis after you run it.
 -->
+
+
+
+```{r}
+t.test(dat$wpm[dat$music=="metal"],
+       dat$wpm[dat$music=="none"],
+       var.equal=TRUE)
+```
+       
+
 
 
 
@@ -45,13 +69,11 @@ the results of your analyses.
 
 
 
-<!--
-Create a bar graph of the data.
--->
 
-
-
-<!--
-Conduct and interpret a two-tailed paired t-test on the data.
--->
+```{r}
+t.test(dat$wpm[dat$music=="metal"],
+       dat$wpm[dat$music=="none"],
+       var.equal=TRUE,
+       alternative="greater")
+```
 
