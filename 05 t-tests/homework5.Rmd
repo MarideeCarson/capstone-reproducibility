@@ -77,3 +77,64 @@ t.test(dat$wpm[dat$music=="metal"],
        alternative="greater")
 ```
 
+install.packages("ggplot2")
+install.packages("gplots")
+install.packages("dplyr")
+
+
+```{r}
+library(ggplot2)
+library(gplots)
+library(dplyr)
+```
+
+
+
+
+```{r}
+temp<-dat%>%group_by(music)%>%
+  summarize(means=mean(wpm),
+            sems=sd(wpm)/sqrt(length(wpm)))
+```
+
+
+
+
+```{r}
+f<-ggplot(temp,aes(x=factor(music),y=means))+
+  geom_bar(stat="identity", color="black",
+           fill=c("deepskyblue2", "deeppink"))+
+  geom_errorbar(aes(ymax=means+sems,
+                    ymin=means-sems),
+                width=.2)+
+  ggtitle("Wpm For the music")+
+  labs(x="Group", y="wpm(ms)")+
+  scale_x_discrete(breaks=c("metal","none"),
+                   labels=c("metal","none"))+
+  theme(plot.title=element_text(size=15,
+                                face="bold",
+                                vjust=.5))+
+  theme(axis.title.x=element_text(size=12,
+                                  face="bold",
+                                  vjust=-.25))+
+  theme(axis.title.y=element_text(size=12,
+                                  face="bold",
+                                  vjust=.25))+
+  theme(axis.text.x=element_text(size=10,
+                                 face="bold",
+                                 color="black"))+
+  theme(axis.text.y=element_text(size=10,
+                                 face="bold",
+                                 color="black"))+
+  coord_cartesian(ylim=c(min(temp$means)-2*max(temp$sems),
+                         max(temp$means)+2*max(temp$sems)))+
+  theme(panel.border=element_blank(),
+        axis.line=element_line())+
+  theme(panel.grid.major.x=element_blank())+
+  theme(panel.grid.major.y=element_line(color="darkgrey"))+
+  theme(panel.grid.minor.y=element_blank())
+f
+```
+
+
+
