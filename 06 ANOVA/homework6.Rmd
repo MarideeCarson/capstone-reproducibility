@@ -3,7 +3,16 @@
 <!--
 Set the working directory.
 No Rchunk is needed to accomplish this.
--->
+--
+
+
+
+```{r}
+library(ggplot2)
+library(gplots)
+library(dplyr)
+```
+
 
 <!--
 Read in the homework6.csv data. For each of the following steps you
@@ -16,6 +25,9 @@ X among green Xs and red Os). We're also looking at how the number
 of distractors within the search display effect our data.
 -->
 
+```{r}
+dat<-read.csv("homework6.csv")
+```
 
 
 <!--
@@ -23,6 +35,9 @@ Check the structure of the data and change any variables that should
 be factor variables into factor variables
 -->
 
+```{r}
+str(dat)
+```
 
 
 <!--
@@ -32,6 +47,46 @@ Also create a line graph to help you interpret the results of your
 analysis.
 -->
 
+From the structure we can see that distractors, subject, and subject2
+should all be factor variables. So let's fix that.
+
+```{r}
+dat$distractor<-as.factor(dat$distractors)
+dat$subject<-as.factor(dat$subject)
+dat$subject2<-as.factor(dat$subject2)
+
+
+temp<-dat[dat$type=="conjunction",]%>%group_by(distractors)%>%
+  summarize(means=mean(rt),
+            sems=sd(rt)/sqrt(length(rt)))
+
+f<-ggplot(temp, aes(x=as.factor(distractors),
+                    y=means,
+                    group=1))+
+  geom_line(size=1)+
+  geom_point(size=2)+
+  geom_errorbar(aes(ymax=means+sems,
+                    ymin=means-sems),
+                width=.2)+
+  ggtitle("rt for searches as a function of distractors")+
+  labs(x="Distractors",y="RT")+
+  theme(plot.title=element_text(size=15,face="bold",vjust=.5))+
+  theme(axis.title.x=element_text(size=12,face="bold",vjust=-.25))+
+  theme(axis.title.y=element_text(size=12,face="bold",vjust=1))+
+  theme(axis.text.x=element_text(size=10,face="bold",color="black"))+
+  theme(axis.text.y=element_text(size=10,face="bold",color="black"))+
+  coord_cartesian(ylim=c(min(temp$means)-2*max(temp$sems),
+                         max(temp$means)+2*max(temp$sems)))+
+  theme(panel.border=element_blank(),axis.line=element_line())+
+  theme(panel.grid.major.x=element_blank())+
+  theme(panel.grid.major.y=element_line(color="darkgrey"))+
+  theme(panel.grid.minor.y=element_blank())
+f
+```
+
+```{r}
+summary(aov(rt~distractors, data=dat[dat$type=="conjunction",]))
+```
 
 
 <!--
@@ -40,6 +95,10 @@ earlier. Tip: use subject as the subjects variable for this analysis.
 -->
 
 
+```{r}
+summary(aov(rt~distractors+Error(subject/distractors), data=dat[dat$type=="conjunction",]))
+```
+
 
 <!--
 Perform a between-subjects ANOVA examining for the effects of and
@@ -47,15 +106,107 @@ interactions between the number of distractors and the search type.
 Make sure to interpret your results.
 -->
 
+Now, I'll perform a between-subjects 2-way ANOVA looking for effects
+of and interactions between distractors and type.
+
+```{r}
+ summary(aov(rt~distractors*type, data=dat))
+```
+
+
 <!--
 Create a line graph and a grouped bar graph to help us interpret
 the results of the previous analyses. Include error bars in your
 figures.
 -->
 
+To help me interpret the earlier analyses, I'll create line and
+grouped bar graphs for the data I analyzed. But first I need to
+summarize the data.
+
+```{r}
+temp<-dat%>%group_by(distractors,type)%>% 
+  summarize(means=mean(rt), 
+              sems=sd(rt)/sqrt(length(rt)))
+
+f<-ggplot(temp, aes(x=distractors,
+                    y=means,
+                    group=type,
+                    color=type))+
+  geom_line(size=1)+
+  geom_point(size=2)+
+  scale_color_manual(values=c("darkgreen","red"),
+                     name="type",
+                     breaks=c("feature","conjunction"),
+                     labels=c("feature", "conjunction"))+
+  geom_errorbar(aes(ymax=means+sems, ymin=means-sems),width=.2)+
+  ggtitle("Rt for searches as a function of distractors and type")+
+  labs(x="List Position",y="Rt")+
+  theme(plot.title=element_text(size=15,face="bold",vjust=.5))+
+  theme(axis.title.x=element_text(size=12,face="bold",vjust=-.25))+
+  theme(axis.title.y=element_text(size=12,face="bold",vjust=1))+
+  theme(axis.text.x=element_text(size=10,face="bold",color="black"))+
+  theme(axis.text.y=element_text(size=10,face="bold",color="black"))+
+  coord_cartesian(ylim=c(min(temp$means)-2*max(temp$sems),
+                         max(temp$means)+2*max(temp$sems)))+
+  theme(panel.border=element_blank(),axis.line=element_line())+
+  theme(panel.grid.major.x=element_blank())+
+  theme(panel.grid.major.y=element_line(color="darkgrey"))+
+  theme(panel.grid.minor.y=element_blank())+
+  theme(legend.position=c(.4,.76))+
+  theme(legend.background=element_blank())+
+  theme(legend.background=element_rect(color="black"))+
+  theme(legend.title=element_blank())+
+  theme(legend.title=element_text(size=12))+
+  theme(legend.title.align=.5)+
+  theme(legend.text=element_text(size=10,face="bold"))
+f
+
+f<-ggplot(temp, aes(x=factor(distractors),
+                    y=means,
+                    fill=type))+
+  geom_bar(stat="identity",position=position_dodge())+
+  scale_fill_manual(values=c("darkgreen","red"),
+                     name="type of search",
+                     breaks=c("feature","conjunction"),
+                     labels=c("feature ", "conjunction"))+
+  geom_errorbar(aes(ymax=means+sems,
+                    ymin=means-sems),
+                width=.2,
+                position=position_dodge(.9))+
+  ggtitle("Rt for searches as a function of distractors and types")+
+  labs(x="Distractors",y="Rt")+
+  theme(plot.title=element_text(size=15,face="bold",vjust=.5))+
+  theme(axis.title.x=element_text(size=12,face="bold",vjust=-.25))+
+  theme(axis.title.y=element_text(size=12,face="bold",vjust=1))+
+  theme(axis.text.x=element_text(size=10,face="bold",color="black"))+
+  theme(axis.text.y=element_text(size=10,face="bold",color="black"))+
+  coord_cartesian(ylim=c(min(temp$means)-2*max(temp$sems),
+                         max(temp$means)+2*max(temp$sems)))+
+  theme(panel.border=element_blank(),axis.line=element_line())+
+  theme(panel.grid.major.x=element_blank())+
+  theme(panel.grid.major.y=element_line(color="darkgrey"))+
+  theme(panel.grid.minor.y=element_blank())+
+  theme(legend.position=c(.4,.76))+
+  theme(legend.background=element_blank())+
+  theme(legend.background=element_rect(color="black"))+
+  theme(legend.title=element_blank())+
+  theme(legend.title=element_text(size=12))+
+  theme(legend.title.align=.5)+
+  theme(legend.text=element_text(size=10,face="bold"))
+f
+```
+
+
+
 <!--
 Interpret the statistical results in light of the figures.
 -->
+
+From the figures and earlier analyses we can see that people
+generally recognize the object they are looking for, for example a red"O" in a group of green "O"'s or red "X's" better when the distractor is just a conjunction instead of a feature. We can also see that in general participants performed
+worse when they had the feature distractor. Most
+importantly, the interaction reveals that individuals have a quicker response time when exposed to the conjunction.The response times for conjunctions are quite a bit more (faster Rt) than with the feature.
 
 
 <!--
@@ -66,7 +217,22 @@ Interpret the results of the analysis based on the statistical
 results and your earlier figures.
 -->
 
+Here I'm performing a within-subjects two-way ANOVA to examine for
+the effects of and interactions between distractorsand
+type.
 
+```{r}
+ summary(aov(rt~distractors*type+ 
+               Error(subject/(distractors*type)),data=dat))
+```
+
+
+From the analyses and the figures we can see that generally people have a shorter response time when the variable is conjunction versus feature, F(1,7) =
+1626, p < .05. We can also see that people are generally more
+able to have a quicker response time with the conjunction rather than the feature F(1626,57.27) = 57.3, p < .05. Finally,
+we can see that those without a feature perform best for the
+words at the beginning and end of the lists while, those with a
+conjucntion perform best for the response time F(1,7) = 1626, p < .05.
 
 <!--
 Finally conduct and interpret the results of a mixed ANOVA in which
@@ -74,3 +240,15 @@ number of distractors varies within subjects and the type of search
 varies between subjects. Make sure to interpret your results. Tip:
 use subject2 as your subject's variable for this analysis.
 -->
+
+Finally, I'll conduct a mixed ANOVA. 
+
+
+```{r}
+summary(aov(rt~distractors*type+
+              Error(subject2/distractors),
+            data=dat))
+```
+
+From our anlyses, we can see that individuals without feature performed better than those who had, F(1,22) = 4.6, p < .05, which is a significant result.
+Additionally, participants generally performed better with the conjunction variable F (1,22) and = (17.93)= 17.9 than with the feature variable (1,7) F=118 with p < .05
